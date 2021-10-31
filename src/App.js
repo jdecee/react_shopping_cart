@@ -1,5 +1,9 @@
 import React, { Component } from 'react'
-import Button from './components/Button'
+import Navbar from './components/Navbar';
+import About from './views/About';
+import Home from './views/Home';
+import { Route } from 'react-router';
+import Racers from './views/Racers';
 
 export default class App extends Component {
   constructor(props){
@@ -18,17 +22,21 @@ export default class App extends Component {
 
 
   render() {
-    const name = 'Jon'
     return (
+      <>
+      <Navbar />
       <div className='container'>
-        <h1>Hell {name}</h1>
-        <Button  step={1} incrementCount={this.handleClick}/>
-        <Button  step={5} incrementCount={this.handleClick}/>
-        <Button  step={10} incrementCount={this.handleClick}/>
-        <Button  step={25} incrementCount={this.handleClick}/>
-        <Button  step={100} incrementCount={this.handleClick}/>
-        <h6>The count is {this.state.count}</h6>
+        <Route exact path='/'>
+          <Home count={this.state.count} handleClick={this.handleClick}/>
+        </Route>
+        <Route exact path='/about'>
+          <About />
+        </Route>
+        <Route exact path='/racers'>
+          <Racers />
+        </Route>
       </div>
+      </>
     )
   }
 }
