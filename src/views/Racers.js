@@ -1,28 +1,50 @@
-import React, { Component } from 'react'
+import React, { useState, useEffect } from 'react'
 import RacerDetail from '../components/RacerDetail';
+import { RacerForm } from '../components/RacerForm';
 
-export default class Racers extends Component {
-    constructor(props){
-        super(props);
-        this.state = {
-            racers: []
+export default function Racers (props){
+    const [racers, setRacers] = useState([]);
+    const [season, setSeason] = useState(2021)
+    const [round, setRound] = useState(1)
+
+
+    useEffect(()=>{
+        fetch(`http://ergast.com/api/f1/${season}/${round}/driverStandings.json`)
+        .then(res => res.json())
+        .then(data => setRacers(data.MRData.StandingsTable.StandingsLists[0].DriverStandings))
+    })
+
+        const handleform = (e) => {
+            e.preventDefault();
+            const seasonInput = e.target.season.value
+            const roundInput = e.target.round.value
+            setSeason(seasonInput);
+            setRound(roundInput);
         }
-    }
 
-    componentDidMount(){
-        fetch(`http://ergast.com/api/f1/2021/1/driverStandings.json`)
-            .then(res => res.json())
-            .then(data => this.setState({
-                racers: data.MRData.StandingsTable.StandingsLists[0].DriverStandings
-            }))
-    }
-
-    render() {
         return (
             <div>
                 This is the Racers Page.
-                {this.state.racers.map((r,i) => <RacerDetail key={i} racer={r} />)}
+                <RacerForm handleform={handleform} />
+                {racers.length ?                
+                <table className='table table-dark table-striped'>
+                    <thead>
+                        <tr>
+                            <td>position</td>
+                            <td>points</td>
+                            <td>wins</td>
+                            <td>givenName</td>
+                            <td>familyName</td>
+                            <td>nationality</td>
+                            <td>Constructor</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {racers.map((r,i) => <RacerDetail key={i} racer={r} />)}
+                    </tbody>
+                </table>
+                : null}
+
             </div>
-        )
-    }
+    )
 }
