@@ -4,7 +4,7 @@ export default class Button extends Component {
     render() {
         return (
             <div>
-                <button>Click Me!</button>
+                <button className='btn btn-dark' onClick={() => this.props.incrementCount(this.props.step)}>+{this.props.step}</button>
             </div>
         )
     }
