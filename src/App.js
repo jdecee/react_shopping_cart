@@ -5,6 +5,7 @@ import Home from './views/Home';
 import { Route } from 'react-router';
 import Racers from './views/Racers';
 import Posts from './views/Posts';
+import Products from './views/Products'
 
 export default class App extends Component {
   constructor(props){
@@ -44,6 +45,9 @@ export default class App extends Component {
         </Route>
         <Route exact path='/posts'>
           <Posts />
+        </Route>
+        <Route exact path='/products'>
+          <Products />
         </Route>
       </div>
       </>
